@@ -1,5 +1,7 @@
 # Intel Search Suite
 
+![ci](https://github.com/flyyihms/intel-search-suite/actions/workflows/ci.yml/badge.svg)
+
 三个版本，同一个核心：**可配置的情报搜索**。
 都支持对话式配置——不需要先改 YAML，也不需要先准备 `config.yaml`。
 
