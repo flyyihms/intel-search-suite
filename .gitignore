@@ -1,0 +1,30 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+*.log
+
+# 本机运行时配置（仓库里只保留 *.template.yaml）
+config.yaml
+config.local.yaml
+!config.template.yaml
+
+# 扫描产物与备份
+reports/
+*.bak
+*.changelog.md
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 环境与凭证
+.env
+.env.*
+*.pem
+
+# 访谈集成测试生成的配置
+.interview-out/

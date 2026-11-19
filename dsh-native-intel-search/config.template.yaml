@@ -1,0 +1,52 @@
+# 仅作为 schema 参考 / 高级预填；普通使用直接在对话里回答，不需要编辑本文件。
+# 这是脱敏模板：{{...}} 都要替换成你自己的信息；不要直接照抄示例。
+# 字段说明见 reference/CONFIG.md；问题定义见 reference/QUESTIONS.yaml。
+
+version: 2
+
+task:
+  name: "{{SEARCH_NAME}}"                     # 输出文件名前缀
+  purpose: "policy"                           # enter_field|competitor|policy|technology|capital|material|job|other|auto
+  purpose_note: ""                            # purpose=other 时写一句说明
+  subject: "{{SUBJECT}}"                      # 搜什么：行业 / 公司 / 产品 / 政策 / 人物 / 事件
+  angles: ["policy", "environment"]           # policy|environment|person|product|technology|capital|other
+  angle_note: ""                              # angles 含 other 时写说明
+  keywords: ["{{KEYWORD_1}}", "{{KEYWORD_2}}"] # 可留空，由 subject + angles 生成
+  exclude: []                                 # 不看什么
+  lookback:
+    mode: "relative"                          # relative|range|since_last
+    days: 30                                  # mode=relative
+    from: ""                                  # mode=range，如 2025-01-01
+    to: ""                                    # mode=range
+  area:
+    mode: "all"                               # all|china|overseas|custom
+    countries: []                             # mode=custom 时填，如 ["新加坡", "日本"]
+  frequency: "once"                           # once|weekly|biweekly|monthly
+  timezone: "Asia/Shanghai"
+
+sources:
+  scope: "public"                             # public|public+login
+  login_pages: []                             # scope=public+login 时必填
+  login_method: "user"                        # user|materials|existing_session
+  content: ["cards"]                          # 仅 public+login：cards|body|images|video|comments|metrics
+  categories: []                              # 可选，收窄来源类型：news|company|research|policy|social|jobs|capital
+
+output:
+  mode: ["chat"]                              # chat|document|table|chart|other
+  other_note: ""                              # mode 含 other 时写说明
+  format: ""                                  # document: docx|md|pdf；table: xlsx|csv
+  must_include: ["conclusion", "evidence"]    # conclusion|evidence|timeline|comparison|data|risk|next|quote
+  length: "medium"                            # short|medium|unlimited（仅文档 / 表格）
+  audience: "self"                            # self|manager|client|public
+  dir: "./reports"                            # 仅文档 / 表格
+  doc_updates:                                # 运行期才启用；面试阶段保持 false
+    enabled: false
+    docs: []
+    backup_dir: "./backups"
+
+run:
+  chrome_cdp_url: "http://127.0.0.1:9222"
+  login_wait_min: 30
+  max_items_per_keyword: 10                   # 每关键词最多看这么多条
+  max_comments_per_note: 20                   # 每条笔记最多取这么多评论
+  delay_seconds: [2, 5]

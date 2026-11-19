@@ -1,0 +1,578 @@
+{
+  "version": 2,
+  "groups": [
+    {
+      "id": "A",
+      "title": "目的",
+      "note": "先问为什么搜，后面的推荐都基于它"
+    },
+    {
+      "id": "B",
+      "title": "搜什么",
+      "note": "对象、视角、关键词、时间范围、区域、排除项"
+    },
+    {
+      "id": "C",
+      "title": "来源与登录",
+      "note": "只分公开 / 需要登录两档"
+    },
+    {
+      "id": "D",
+      "title": "输出什么",
+      "note": "形态 → 要件 → 篇幅 → 受众 → 节奏"
+    },
+    {
+      "id": "E",
+      "title": "交付",
+      "note": "只在要写文件时才出现"
+    }
+  ],
+  "questions": [
+    {
+      "id": "purpose",
+      "group": "A",
+      "round": 1,
+      "type": "single",
+      "ask": "这次搜索要支持你做什么决定？",
+      "required": true,
+      "default": "auto",
+      "options": [
+        {
+          "value": "enter_field",
+          "label": "判断要不要进 / 加码某个领域"
+        },
+        {
+          "value": "competitor",
+          "label": "盯竞品或同行的动作"
+        },
+        {
+          "value": "policy",
+          "label": "盯政策与合规变化"
+        },
+        {
+          "value": "technology",
+          "label": "盯技术与产品进展"
+        },
+        {
+          "value": "capital",
+          "label": "盯市场、融资与并购"
+        },
+        {
+          "value": "material",
+          "label": "写一份材料给别人"
+        },
+        {
+          "value": "job",
+          "label": "找工作 / 转岗"
+        },
+        {
+          "value": "other",
+          "label": "其他（自己描述）"
+        },
+        {
+          "value": "auto",
+          "label": "你帮我判断"
+        }
+      ],
+      "maps_to": "task.purpose",
+      "note": "purpose=other 时追问一句说明；purpose=job 时追加岗位支线（见 branch_job）"
+    },
+    {
+      "id": "subject",
+      "group": "B",
+      "round": 1,
+      "type": "text",
+      "ask": "这次要搜的对象是什么？（行业 / 公司 / 产品 / 政策 / 人物 / 事件）",
+      "required": true,
+      "examples": [
+        "某行业",
+        "某公司的新品线",
+        "某部委的行业监管文件"
+      ],
+      "maps_to": "task.subject"
+    },
+    {
+      "id": "angles",
+      "group": "B",
+      "round": 1,
+      "type": "multi",
+      "ask": "想从哪几个角度看？",
+      "required": true,
+      "default": "by_purpose",
+      "options": [
+        {
+          "value": "policy",
+          "label": "政策与监管"
+        },
+        {
+          "value": "environment",
+          "label": "环境（市场与行业环境）"
+        },
+        {
+          "value": "person",
+          "label": "个人（关键人物 / 用户 / 组织里的人）"
+        },
+        {
+          "value": "product",
+          "label": "产品（产品与竞品）"
+        },
+        {
+          "value": "technology",
+          "label": "技术"
+        },
+        {
+          "value": "capital",
+          "label": "资本与交易（融资 / 并购 / IPO）"
+        },
+        {
+          "value": "other",
+          "label": "其他（自己描述）"
+        }
+      ],
+      "maps_to": "task.angles",
+      "note": "default=by_purpose 表示按第 1 题推荐 2-3 个，用户可增删"
+    },
+    {
+      "id": "keywords",
+      "group": "B",
+      "round": 2,
+      "type": "text",
+      "ask": "搜的时候用什么关键词？（可留空）",
+      "required": false,
+      "examples": [
+        "行业 关键词",
+        "品牌名",
+        "政策名"
+      ],
+      "maps_to": "task.keywords",
+      "note": "留空时由 Agent 从 subject + angles 生成，先给用户确认再搜"
+    },
+    {
+      "id": "lookback",
+      "group": "B",
+      "round": 2,
+      "type": "single",
+      "ask": "搜索时间范围是？",
+      "required": true,
+      "default": 30,
+      "free_text": true,
+      "options": [
+        {
+          "value": 7,
+          "label": "最近 7 天"
+        },
+        {
+          "value": 30,
+          "label": "最近 30 天（默认）"
+        },
+        {
+          "value": 90,
+          "label": "最近 90 天"
+        },
+        {
+          "value": 365,
+          "label": "最近 12 个月"
+        },
+        {
+          "value": "since_last",
+          "label": "自从上一份结果"
+        },
+        {
+          "value": "custom",
+          "label": "自定义（填写起止日期或天数）"
+        }
+      ],
+      "maps_to": "task.lookback"
+    },
+    {
+      "id": "area",
+      "group": "B",
+      "round": 2,
+      "type": "single",
+      "ask": "区域范围？",
+      "required": true,
+      "default": "all",
+      "free_text": true,
+      "options": [
+        {
+          "value": "all",
+          "label": "不限（默认）：不按地域过滤，按相关性搜"
+        },
+        {
+          "value": "china",
+          "label": "只看中国"
+        },
+        {
+          "value": "overseas",
+          "label": "只看海外（排除中国）"
+        },
+        {
+          "value": "custom",
+          "label": "指定国家或地区（填写）"
+        }
+      ],
+      "maps_to": "task.area",
+      "note": "不再单列\"中国 + 海外\"——它与\"不限\"重复；要看多个国家请用 custom 填写。"
+    },
+    {
+      "id": "exclude",
+      "group": "B",
+      "round": 2,
+      "type": "text",
+      "ask": "有没有明确的不看什么？（可跳过）",
+      "required": false,
+      "examples": [
+        "已知结论",
+        "竞品黑名单",
+        "培训营 / 引流稿"
+      ],
+      "maps_to": "task.exclude"
+    },
+    {
+      "id": "source_scope",
+      "group": "C",
+      "round": 3,
+      "type": "single",
+      "ask": "来源范围？",
+      "required": true,
+      "default": "public",
+      "options": [
+        {
+          "value": "public",
+          "label": "只要公开来源（含不登录也能看到的社交 / 招聘公开页）"
+        },
+        {
+          "value": "public+login",
+          "label": "公开 + 需要登录的页面"
+        }
+      ],
+      "maps_to": "sources.scope"
+    },
+    {
+      "id": "login_pages",
+      "group": "C",
+      "round": 3,
+      "type": "text",
+      "when": "source_scope == \"public+login\"",
+      "required": true,
+      "ask": "需要登录的具体是哪些页面？",
+      "examples": [
+        "某内容平台 / 某账号主页",
+        "某招聘网站 / 某职位列表"
+      ],
+      "maps_to": "sources.login_pages"
+    },
+    {
+      "id": "login_method",
+      "group": "C",
+      "round": 3,
+      "type": "single",
+      "when": "source_scope == \"public+login\"",
+      "required": true,
+      "default": "user",
+      "ask": "登录怎么做？",
+      "options": [
+        {
+          "value": "user",
+          "label": "你自己登录，我在浏览器等你（默认）"
+        },
+        {
+          "value": "materials",
+          "label": "你把页面内容或截图贴给我，我不登录"
+        },
+        {
+          "value": "existing_session",
+          "label": "复用我现有的浏览器登录态"
+        }
+      ],
+      "maps_to": "sources.login_method"
+    },
+    {
+      "id": "login_content",
+      "group": "C",
+      "round": 3,
+      "type": "multi",
+      "when": "source_scope == \"public+login\"",
+      "required": true,
+      "default": [
+        "cards"
+      ],
+      "ask": "从这些需要登录的来源里，你要取到什么？",
+      "options": [
+        {
+          "value": "cards",
+          "label": "标题 + 卡片摘要（默认，最快）"
+        },
+        {
+          "value": "body",
+          "label": "正文全文"
+        },
+        {
+          "value": "images",
+          "label": "图片里的文字与价格（要看图 / OCR）"
+        },
+        {
+          "value": "video",
+          "label": "视频（标题 + 简介；要内容需转写）"
+        },
+        {
+          "value": "comments",
+          "label": "评论区（每条笔记最多 20 条高赞）"
+        },
+        {
+          "value": "metrics",
+          "label": "互动数据（点赞/收藏/评论数，当热度信号）"
+        }
+      ],
+      "maps_to": "sources.content",
+      "note": "每关键词默认只看 top 10 卡片；点开正文最多 3 条/关键词。选得越多越慢、越容易触发风控。"
+    },
+    {
+      "id": "output_mode",
+      "group": "D",
+      "round": 4,
+      "type": "multi",
+      "ask": "最终要什么形态？",
+      "required": true,
+      "default": [
+        "chat"
+      ],
+      "options": [
+        {
+          "value": "chat",
+          "label": "只在对话里回答（默认）"
+        },
+        {
+          "value": "document",
+          "label": "一份文档（Word / Markdown / PDF）"
+        },
+        {
+          "value": "table",
+          "label": "一张表（Excel / CSV）"
+        },
+        {
+          "value": "chart",
+          "label": "图表（趋势 / 对比）"
+        },
+        {
+          "value": "other",
+          "label": "其他（自己描述）"
+        }
+      ],
+      "maps_to": "output.mode"
+    },
+    {
+      "id": "must_include",
+      "group": "D",
+      "round": 4,
+      "type": "multi",
+      "ask": "内容必须包含什么？",
+      "required": true,
+      "default": [
+        "conclusion",
+        "evidence"
+      ],
+      "options": [
+        {
+          "value": "conclusion",
+          "label": "结论（默认）"
+        },
+        {
+          "value": "evidence",
+          "label": "证据链接与原文摘录（默认）"
+        },
+        {
+          "value": "timeline",
+          "label": "时间线"
+        },
+        {
+          "value": "comparison",
+          "label": "对比表"
+        },
+        {
+          "value": "data",
+          "label": "关键数据点"
+        },
+        {
+          "value": "risk",
+          "label": "风险与红线"
+        },
+        {
+          "value": "next",
+          "label": "下一步建议"
+        },
+        {
+          "value": "quote",
+          "label": "原文摘录"
+        }
+      ],
+      "maps_to": "output.must_include"
+    },
+    {
+      "id": "length",
+      "group": "D",
+      "round": 4,
+      "type": "single",
+      "when": "output_mode 含 document 或 table",
+      "required": false,
+      "default": "medium",
+      "ask": "篇幅？",
+      "options": [
+        {
+          "value": "short",
+          "label": "一页以内"
+        },
+        {
+          "value": "medium",
+          "label": "3-5 页（默认）"
+        },
+        {
+          "value": "unlimited",
+          "label": "不限，写透"
+        }
+      ],
+      "maps_to": "output.length"
+    },
+    {
+      "id": "audience",
+      "group": "D",
+      "round": 4,
+      "type": "single",
+      "ask": "这份东西给谁看？（可跳过）",
+      "required": false,
+      "default": "self",
+      "options": [
+        {
+          "value": "self",
+          "label": "自己"
+        },
+        {
+          "value": "manager",
+          "label": "上级"
+        },
+        {
+          "value": "client",
+          "label": "客户"
+        },
+        {
+          "value": "public",
+          "label": "对外发布"
+        }
+      ],
+      "maps_to": "output.audience"
+    },
+    {
+      "id": "frequency",
+      "group": "D",
+      "round": 4,
+      "type": "single",
+      "ask": "这份东西要定期再出吗？",
+      "required": true,
+      "default": "once",
+      "options": [
+        {
+          "value": "once",
+          "label": "只跑这一次（默认）"
+        },
+        {
+          "value": "weekly",
+          "label": "每周"
+        },
+        {
+          "value": "biweekly",
+          "label": "每两周"
+        },
+        {
+          "value": "monthly",
+          "label": "每月"
+        }
+      ],
+      "maps_to": "task.frequency"
+    },
+    {
+      "id": "output_format",
+      "group": "D",
+      "round": 4,
+      "type": "single",
+      "when": "output_mode 含 document 或 table",
+      "required": false,
+      "default": "docx",
+      "ask": "文件格式？",
+      "options": [
+        {
+          "value": "docx",
+          "label": "Word（.docx，默认）"
+        },
+        {
+          "value": "md",
+          "label": "Markdown（.md）"
+        },
+        {
+          "value": "pdf",
+          "label": "PDF"
+        },
+        {
+          "value": "xlsx",
+          "label": "Excel（.xlsx，选表格时用）"
+        },
+        {
+          "value": "csv",
+          "label": "CSV（选表格时用）"
+        }
+      ],
+      "maps_to": "output.format"
+    },
+    {
+      "id": "output_dir",
+      "group": "E",
+      "round": 4,
+      "type": "text",
+      "when": "output_mode 含 document 或 table",
+      "required": false,
+      "default": "./reports",
+      "ask": "文件放哪？",
+      "maps_to": "output.dir"
+    }
+  ],
+  "runtime_questions": [
+    {
+      "id": "doc_target",
+      "trigger": "真正要写文档、且用户可能有可并的旧文档时",
+      "ask": "这次结果是写一份新文档，还是并进你已有的某份文档？",
+      "options": [
+        {
+          "value": "new",
+          "label": "新建一份（默认）"
+        },
+        {
+          "value": "merge",
+          "label": "并进已有文档（给路径；只追加、先备份、不删不改原文）"
+        }
+      ],
+      "maps_to": "output.doc_updates"
+    }
+  ],
+  "branch_job": [
+    {
+      "id": "target_roles",
+      "ask": "目标岗位是什么？",
+      "type": "text",
+      "required": false,
+      "maps_to": "task.job.target_roles"
+    },
+    {
+      "id": "target_industries",
+      "ask": "想去的行业？",
+      "type": "text",
+      "required": false,
+      "maps_to": "task.job.target_industries"
+    },
+    {
+      "id": "job_exclude",
+      "ask": "明确不看的？（外包 / 驻场 / 通勤距离…）",
+      "type": "text",
+      "required": false,
+      "maps_to": "task.job.exclude"
+    }
+  ]
+}

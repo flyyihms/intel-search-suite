@@ -1,0 +1,36 @@
+{
+  "name": "@fde/dsh-intel-search",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DSH native bundle that validates recurring-intelligence-search configs, exposes intel_search, and starts the default Chromium browser with CDP for login-gated sources.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./tool": "./lib/tool.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./config.template.yaml": "./config.template.yaml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/tool.js",
+    "lib/questions.json",
+    "cordis.patch.yml",
+    "config.template.yaml",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20",
+    "dsh": "0.2.1-rc.3"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "yaml": "^2.5.0"
+  }
+}
