@@ -108,18 +108,21 @@ dsh plugin --profile desktop add file:<仓库路径>\dsh-native-intel-search
 { "mode": "questions" }
 ```
 
-拿到问题，回答后带 `answers` 再调一次。
-要登录时先调 `browser_setup`（检查/启动 9222、打开登录页），登录后再抓。
+拿到问题（共 18 题，按 `when` 只返回当前相关的），回答后带 `answers` 再调一次。
+
+需要登录时：先调 `browser_setup` 打开登录页，**同时并行搜公开来源**；随后调
+`browser_login_check` 判断登录态（`wait_seconds: 0` 单查，或 `>0` 自己轮询到登录成功），
+不需要你回一句"好了"。
 详见 [dsh-native-intel-search/README.md](dsh-native-intel-search/README.md)。
 
 ## 目录
 
 ```text
 intel-search-suite/
-├── README.md                  # 本文件：怎么选 + 三者区别
-├── prompt-only/               # 纯 Prompt
-├── recurring-intel-search/      # Agent Skill
-└── dsh-native-intel-search/     # DSH 原生 bundle
+├── README.md                     # 本文件：怎么选 + 三者区别
+├── prompt-only/                  # 纯 Prompt
+├── recurring-intel-search/       # Agent Skill
+└── dsh-native-intel-search/      # DSH 原生 bundle
 ```
 
 ## 不要混用
@@ -147,9 +150,7 @@ DSH 会话共享机器，但不共享**工具集、沙箱权限、工作目录�
 
 ## 持续检查
 
-每次 push 到 `main`，GitHub Actions 会用
-[recurring-intel-search/scripts/validate_config.py](recurring-intel-search/scripts/validate_config.py)
-每次 push 跑四道检查，任何一处漂移都会亮红：
+每次 push 到 `main`，GitHub Actions 会跑四道检查，任何一处漂移都会亮红：
 
 1. `validate_config.py --all`：问题定义、`questions.json` 新鲜度、三份模板、副本一致性
 2. `check_consistency.py`：Python 与 JavaScript 的枚举是否一致、文档是否覆盖所有 question id、README 里的题数是否与定义一致
