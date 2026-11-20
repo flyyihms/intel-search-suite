@@ -1,5 +1,5 @@
 {
-  "name": "@fde/dsh-intel-search",
+  "name": "dsh-intel-search",
   "version": "0.1.0",
   "private": true,
   "description": "DSH native bundle that validates recurring-intelligence-search configs, exposes intel_search, and starts the default Chromium browser with CDP for login-gated sources.",

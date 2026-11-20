@@ -207,7 +207,7 @@ Plugins 页面 → Install / Add bundle → 选择你克隆下来的本地路径
 - 不代替用户登录；`browser_setup` 只启动浏览器和打开登录页。
 - `browser_setup` 启动浏览器可能受宿主沙箱限制；失败时用浏览器自己的命令手动启动。
 - 安装 Host 代码会在 DSH 进程内运行；只安装你信任的包。
-- 卸载：Plugins 页面 Remove，或 `dsh plugin --profile desktop remove @fde/dsh-intel-search`。
+- 卸载：Plugins 页面 Remove，或 `dsh plugin --profile desktop remove dsh-intel-search`。
 
 ## 已验证
 

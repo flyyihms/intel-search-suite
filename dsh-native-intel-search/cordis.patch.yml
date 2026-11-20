@@ -1,8 +1,8 @@
 # This bundle inserts one tool row. The tool lives in ./lib/tool.js and is
-# exported as the package subpath "@fde/dsh-intel-search/tool".
+# exported as the package subpath "dsh-intel-search/tool".
 - insert:
     - id: tool-intel-search
-      name: '@fde/dsh-intel-search/tool'
+      name: 'dsh-intel-search/tool'
       config:
         defaultConfigPath: './config.yaml'
         maxConfigBytes: 262144
