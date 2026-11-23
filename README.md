@@ -115,6 +115,10 @@ dsh plugin --profile desktop add file:<仓库路径>\dsh-native-intel-search
 不需要你回一句"好了"。
 详见 [dsh-native-intel-search/README.md](dsh-native-intel-search/README.md)。
 
+想用 `/intel <主题>` 直接启动：把 [dsh-native-skill/SKILL.md](dsh-native-skill/SKILL.md)
+复制到 `<DSH_AGENTS_HOME>/skills/intel/SKILL.md`，技能目录热加载，立即生效。详见
+[dsh-native-skill/README.md](dsh-native-skill/README.md)。
+
 ## 目录
 
 ```text
@@ -122,7 +126,8 @@ intel-search-suite/
 ├── README.md                     # 本文件：怎么选 + 三者区别
 ├── prompt-only/                  # 纯 Prompt
 ├── recurring-intel-search/       # Agent Skill
-└── dsh-native-intel-search/      # DSH 原生 bundle
+├── dsh-native-intel-search/      # DSH 原生 bundle
+└── dsh-native-skill/             # /intel 斜杠技能（原生工具的入口）
 ```
 
 ## 不要混用
